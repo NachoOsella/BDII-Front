@@ -14,12 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import frc.bd.dto.TodoDTO;
+import frc.bd.dto.TodoHistoryDTO;
 import frc.bd.model.Todo;
+import frc.bd.service.TodoHistoryService;
 import frc.bd.service.TodoService;
 
 @RestController
 @RequestMapping("/api/todos")
 public class TodoController {
+    @Autowired
+    private TodoHistoryService todoHistoryService;
+
     @Autowired
     private TodoService todoService;
 
@@ -64,6 +69,24 @@ public class TodoController {
         return todoService.getTodosByUserId(null) // O ajusta según lógica de negocio
                 .stream()
                 .map(todo -> new TodoDTO(todo.getId(), todo.getText(), todo.isCompleted(), todo.getUserId(), todo.getCreatedAt(), todo.getUpdatedAt()))
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/history/{userId}")
+    public List<TodoHistoryDTO> getTodoHistoryByUser(@PathVariable String userId) {
+        return todoHistoryService.getHistoryByUser(userId)
+                .stream()
+                .map(h -> new TodoHistoryDTO(
+                        h.getId(),
+                        h.getTodoId(),
+                        h.getUserId(),
+                        h.getText(),
+                        h.isCompleted(),
+                        h.getCreatedAt(),
+                        h.getUpdatedAt(),
+                        h.getAction(),
+                        h.getActionAt()
+                ))
                 .collect(Collectors.toList());
     }
 }

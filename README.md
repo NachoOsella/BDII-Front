@@ -52,6 +52,3 @@ export default tseslint.config({
   },
 })
 ```
-# BDII-Front
-# BDII-Front
-# BDII-Front

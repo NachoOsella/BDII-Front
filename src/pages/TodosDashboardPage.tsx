@@ -2,35 +2,44 @@ import React, { useState, useEffect, useCallback } from 'react';
 import TodoForm from '../components/TodoForm';
 import TodoList from '../components/TodoList';
 import { getTodos, createTodo, updateTodo, deleteTodo } from '../services/todoService';
+import { useAuth } from '../hooks/useAuth';
 import type { Todo, TodoCreateDto, TodoUpdateDto } from '../types/todo';
 
 const TodosDashboardPage: React.FC = () => {
+    const { user } = useAuth();
     const [todos, setTodos] = useState<Todo[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [editingTodo, setEditingTodo] = useState<Todo | null>(null); // Para el modo edición
 
     const fetchTodos = useCallback(async () => {
+        if (!user || !user.id || user.id === '' || user.id === ':1') {
+            setError('Usuario no válido. Por favor, vuelve a iniciar sesión.');
+            setIsLoading(false);
+            return;
+        }
         setIsLoading(true);
         setError(null);
         try {
-            const data = await getTodos();
+            const data = await getTodos(user.id);
             setTodos(data);
         } catch (err) {
             setError('Error al cargar las tareas.');
+            console.error('Valor de user:', user);
             console.error(err);
         } finally {
             setIsLoading(false);
         }
-    }, []);
+    }, [user]);
 
     useEffect(() => {
         fetchTodos();
     }, [fetchTodos]);
 
     const handleAddTodo = async (todoData: TodoCreateDto) => {
+        if (!user) return;
         try {
-            await createTodo(todoData);
+            await createTodo({ ...todoData, userId: user.id });
             fetchTodos(); // Recargar lista
         } catch (err) {
             setError('Error al crear la tarea.');

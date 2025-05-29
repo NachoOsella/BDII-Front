@@ -35,13 +35,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 try {
                     // Aquí podrías llamar a un endpoint /me para obtener datos del usuario si el token es válido
                     // Por ahora, si hay token, asumimos que es válido y decodificamos o esperamos login
-                    // Para este ejemplo, si hay token, mantenemos isLoading false,
-                    // y el usuario se seteará explícitamente en login.
-                    // Si el token expira, el backend lo rechazará y el usuario será deslogueado.
-                    // Para un mejor UX, se podría validar el token aquí.
-                    // Ejemplo simple: si hay token, asumimos que el usuario se logueará o ya lo está.
-                    // const userData = await getMe(); // Si tienes endpoint /me
-                    // setUser(userData);
                     // Para este ejemplo, el usuario se establecerá explícitamente al hacer login.
                     // Si quisieras persistir el objeto User, lo guardarías en localStorage junto al token.
                     const storedUser = localStorage.getItem('user');
@@ -68,13 +61,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             const data: AuthResponse = await apiLogin(credentials);
             localStorage.setItem('accessToken', data.accessToken);
-            // Asumimos que el username es suficiente por ahora, o que AuthResponse tiene User
-            const loggedInUser: User = { id: '', username: data.username, email: credentials.usernameOrEmail.includes('@') ? credentials.usernameOrEmail : '' }; // Simplificado
-            // Si tu API devuelve el objeto User completo en login, úsalo:
-            // setUser(data.user);
-            // localStorage.setItem('user', JSON.stringify(data.user));
-            setUser(loggedInUser); // Necesitarías un ID real aquí o que el backend lo devuelva
-            localStorage.setItem('user', JSON.stringify(loggedInUser));
+            // Ahora el backend devuelve el objeto user completo
+            setUser(data.user);
+            localStorage.setItem('user', JSON.stringify(data.user));
             setToken(data.accessToken);
         } catch (error) {
             console.error("Login failed", error);

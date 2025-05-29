@@ -1,12 +1,12 @@
 import apiClient from './api';
 import type { Todo, TodoCreateDto, TodoUpdateDto } from '../types/todo';
 
-export const getTodos = async (): Promise<Todo[]> => {
-    const response = await apiClient.get<Todo[]>('/todos');
+export const getTodos = async (userId: string): Promise<Todo[]> => {
+    const response = await apiClient.get<Todo[]>(`/todos/user/${userId}`);
     return response.data;
 };
 
-export const createTodo = async (todoData: TodoCreateDto): Promise<Todo> => {
+export const createTodo = async (todoData: TodoCreateDto & { userId: string }): Promise<Todo> => {
     const response = await apiClient.post<Todo>('/todos', todoData);
     return response.data;
 };

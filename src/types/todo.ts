@@ -9,6 +9,7 @@ export interface Todo {
 
 export interface TodoCreateDto {
     text: string;
+    userId?: string; // Se agrega userId opcional para facilitar el tipado en el frontend
 }
 
 export interface TodoUpdateDto {

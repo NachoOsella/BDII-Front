@@ -1,0 +1,310 @@
+body {
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  background-color: #f7f9fc;
+  /* Softer background */
+  color: #2c3e50;
+  /* Softer black for text */
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  /* Smoother fonts on WebKit */
+  -moz-osx-font-smoothing: grayscale;
+  /* Smoother fonts on Firefox */
+}
+
+.container {
+  max-width: 1000px;
+  /* Slightly wider for modern screens */
+  margin: 0 auto;
+  /* Keep centered */
+  overflow: hidden;
+  padding: 20px 25px;
+  /* Adjusted padding */
+}
+
+/* Enhanced Navbar styling */
+nav {
+  background: #ffffff;
+  /* Clean white background */
+  color: #2c3e50;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  /* Softer border */
+  margin-bottom: 30px;
+  /* More space below navbar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* Subtle shadow */
+}
+
+nav ul {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Vertically align items */
+  margin: 0;
+}
+
+nav li {
+  display: inline;
+}
+
+nav a {
+  color: #3498db;
+  /* Primary color for links */
+  text-decoration: none;
+  margin: 0 15px;
+  /* More spacing */
+  padding: 8px 12px;
+  /* Add padding for a larger click area */
+  border-radius: 4px;
+  /* Slightly rounded corners for links */
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+nav a:hover,
+nav a.active {
+  /* Style for active link if you add that class */
+  color: #ffffff;
+  background-color: #3498db;
+  /* Primary color background on hover/active */
+}
+
+
+/* General link styling */
+a {
+  color: #3498db;
+  /* Consistent primary color */
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: #2980b9;
+  /* Darker shade on hover */
+  text-decoration: none;
+  /* Avoid underline for a cleaner look, rely on color change */
+}
+
+/* Enhanced Button styling */
+button,
+input[type="submit"],
+input[type="button"] {
+  background-color: #3498db;
+  /* Primary color */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  /* More padding */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 500;
+  /* Slightly bolder text */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background-color: #2980b9;
+  /* Darker shade on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  /* Enhanced shadow on hover */
+}
+
+/* Enhanced Form styling */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 12px 15px;
+  /* More padding */
+  margin: 10px 0;
+  /* More margin */
+  display: inline-block;
+  border: 1px solid #d1d5da;
+  /* Softer border */
+  border-radius: 6px;
+  /* More rounded corners */
+  box-sizing: border-box;
+  font-size: 16px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  border-color: #3498db;
+  /* Primary color border on focus */
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+  /* Focus ring */
+  outline: none;
+}
+
+textarea {
+  min-height: 120px;
+  /* Taller textarea */
+  resize: vertical;
+  /* Allow vertical resize */
+}
+
+/* Enhanced styling for headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #1c2833;
+  /* Darker, more defined headings */
+  margin-top: 2rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  /* Bolder headings */
+}
+
+h1 {
+  font-size: 2.2em;
+}
+
+h2 {
+  font-size: 1.8em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+
+/* Remove default list styling for cleaner look */
+ul,
+ol {
+  padding-left: 20px;
+}
+
+/* Enhanced Card-like styling */
+.card {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  /* Softer border */
+  border-radius: 8px;
+  /* More rounded corners */
+  padding: 20px 25px;
+  /* More padding */
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Softer, more diffused shadow */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  /* Enhanced shadow on hover */
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.mt-1 {
+  margin-top: 0.5rem;
+}
+
+.mt-2 {
+  margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 1.5rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-2 {
+  margin-bottom: 1rem;
+}
+
+.mb-3 {
+  margin-bottom: 1.5rem;
+}
+
+
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    /* Stack nav items on smaller screens */
+  }
+
+  nav a {
+    margin: 5px 0;
+    /* Adjust margin for stacked items */
+    display: block;
+    /* Make links take full width */
+    text-align: center;
+  }
+
+  button,
+  input[type="submit"],
+  input[type="button"] {
+    width: 100%;
+    /* Full width buttons on small screens */
+    padding: 12px;
+  }
+}
+
+
+/* Styles from previous state that might be project-specific */
+/* Keep these if they are still relevant, or remove/integrate if not */
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.read-the-docs {
+  color: #888;
+}

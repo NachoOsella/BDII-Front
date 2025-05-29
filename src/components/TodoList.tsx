@@ -5,24 +5,26 @@ import TodoItem from './TodoItem';
 interface TodoListProps {
     todos: Todo[];
     onToggleComplete: (id: string, completed: boolean) => void;
-    onDelete: (id: string) => void;
     onEdit: (todo: Todo) => void;
+    onDelete: (id: string) => void; // Added onDelete prop
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onDelete, onEdit }) => {
-    if (!todos.length) {
+const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onEdit, onDelete }) => { // Added onDelete to destructuring
+    const activeTodos = todos.filter(todo => !todo.completed);
+
+    if (!activeTodos.length) {
         return <p>No tienes tareas pendientes. ¡Añade una!</p>;
     }
 
     return (
         <ul style={{ listStyleType: 'none', padding: 0 }}>
-            {todos.map(todo => (
+            {activeTodos.map(todo => (
                 <TodoItem
                     key={todo.id}
                     todo={todo}
                     onToggleComplete={onToggleComplete}
-                    onDelete={onDelete}
                     onEdit={onEdit}
+                    onDelete={onDelete} // Passed onDelete to TodoItem
                 />
             ))}
         </ul>

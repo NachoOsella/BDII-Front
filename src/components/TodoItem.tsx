@@ -4,11 +4,11 @@ import type { Todo } from '../types/todo';
 interface TodoItemProps {
     todo: Todo;
     onToggleComplete: (id: string, completed: boolean) => void;
-    onDelete: (id: string) => void;
+    onDelete: (id: string) => void; // Added onDelete
     onEdit: (todo: Todo) => void; // Para iniciar la edición
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggleComplete, onDelete, onEdit }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggleComplete, onDelete, onEdit }) => { // Added onDelete to destructuring
     return (
         <li style={{
             display: 'flex',
@@ -24,7 +24,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggleComplete, onDelete, o
             </span>
             <div>
                 <button onClick={() => onEdit(todo)} style={{ marginRight: '5px' }}>Editar</button>
-                <button onClick={() => onDelete(todo.id)}>Eliminar</button>
+                {/* Changed from Delete to Complete, calls onToggleComplete to mark as completed */}
+                <button onClick={() => onToggleComplete(todo.id, true)} style={{ marginRight: '5px' }}>Completar</button>
+                <button onClick={() => onDelete(todo.id)}>Borrar</button> {/* Added Delete button */}
             </div>
         </li>
     );

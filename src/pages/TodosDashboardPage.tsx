@@ -69,26 +69,27 @@ const TodosDashboardPage: React.FC = () => {
 
     const handleToggleComplete = async (id: string, completed: boolean) => {
         try {
+            // Call updateTodo service to change the completed status
             await updateTodo(id, { completed });
-            fetchTodos();
+            fetchTodos(); // Refresh list after updating
         } catch (err) {
-            setError('Error al actualizar estado de la tarea.');
-            console.error(err);
-        }
-    };
-
-    const handleDeleteTodo = async (id: string) => {
-        try {
-            await deleteTodo(id);
-            fetchTodos();
-        } catch (err) {
-            setError('Error al eliminar la tarea.');
+            setError('Error al cambiar estado de la tarea.');
             console.error(err);
         }
     };
 
     const handleEditTodo = (todo: Todo) => {
         setEditingTodo(todo); // Entrar en modo edición
+    };
+
+    const handleDelete = async (id: string) => { // Added handleDelete function
+        try {
+            await deleteTodo(id);
+            fetchTodos(); // Recargar todos después de borrar
+        } catch (error) {
+            console.error("Error al borrar todo:", error);
+            // Considerar mostrar un mensaje al usuario
+        }
     };
 
     if (isLoading) return <p>Cargando tareas...</p>;
@@ -107,8 +108,8 @@ const TodosDashboardPage: React.FC = () => {
             <TodoList
                 todos={todos}
                 onToggleComplete={handleToggleComplete}
-                onDelete={handleDeleteTodo}
                 onEdit={handleEditTodo}
+                onDelete={handleDelete} // Added onDelete prop
             />
         </div>
     );

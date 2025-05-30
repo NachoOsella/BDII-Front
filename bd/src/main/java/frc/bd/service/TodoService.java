@@ -27,10 +27,23 @@ public class TodoService {
 
     public Todo save(Todo todo) {
         boolean isNew = (todo.getId() == null);
+        boolean wasCompleted = false;
+
+        if (!isNew) {
+            // Para tareas existentes, verificar el estado anterior
+            Optional<Todo> existing = todoRepository.findById(todo.getId());
+            if (existing.isPresent()) {
+                wasCompleted = existing.get().isCompleted();
+            }
+        }
+
         Todo saved = todoRepository.save(todo);
+
         if (isNew) {
             todoHistoryService.logHistory(saved, "CREATED");
-        } else if (todo.isCompleted()) {
+        } else if (!wasCompleted && saved.isCompleted()) {
+            // Solo registrar COMPLETED cuando la tarea se marca como completada por primera
+            // vez
             todoHistoryService.logHistory(saved, "COMPLETED");
         } else {
             todoHistoryService.logHistory(saved, "UPDATED");

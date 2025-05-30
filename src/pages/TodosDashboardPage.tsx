@@ -92,24 +92,50 @@ const TodosDashboardPage: React.FC = () => {
         }
     };
 
-    if (isLoading) return <p>Cargando tareas...</p>;
-    if (error) return <p style={{ color: 'red' }}>{error}</p>;
+    if (isLoading) {
+        return (
+            <div className="loading-container">
+                <div className="loading-spinner"></div>
+                <p className="loading-text">Cargando tareas...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="error-message">
+                <strong>Error:</strong> {error}
+            </div>
+        );
+    }
 
     return (
-        <div style={{ maxWidth: '600px', margin: 'auto' }}>
-            <h1>Mis Tareas</h1>
+        <div className="container fade-in">
+            <div className="reports-header">
+                <h1>Mis Tareas</h1>
+                <p>Organiza y gestiona tus actividades diarias</p>
+            </div>
+
             <TodoForm
                 onSubmit={handleFormSubmit}
                 initialData={editingTodo}
                 isEditing={!!editingTodo}
-                buttonText={editingTodo ? 'Actualizar Tarea' : 'Añadir Tarea'}
+                buttonText={editingTodo ? 'Actualizar' : 'Añadir Tarea'}
             />
-            {editingTodo && <button onClick={() => setEditingTodo(null)} style={{ marginBottom: '10px' }}>Cancelar Edición</button>}
+
+            {editingTodo && (
+                <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+                    <button onClick={() => setEditingTodo(null)} className="btn btn-secondary">
+                        Cancelar Edición
+                    </button>
+                </div>
+            )}
+
             <TodoList
                 todos={todos}
                 onToggleComplete={handleToggleComplete}
                 onEdit={handleEditTodo}
-                onDelete={handleDelete} // Added onDelete prop
+                onDelete={handleDelete}
             />
         </div>
     );

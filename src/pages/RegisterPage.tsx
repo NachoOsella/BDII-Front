@@ -13,7 +13,7 @@ const RegisterPage: React.FC = () => {
         setError(null);
         try {
             await register(credentials);
-            alert('Registro exitoso. Por favor, inicia sesión.'); // O un toast
+            alert('Registro exitoso. Por favor, inicia sesión.');
             navigate('/login');
         } catch (err) {
             if (err && typeof err === 'object' && err !== null) {
@@ -27,13 +27,25 @@ const RegisterPage: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="container">
+            <div className="reports-header">
+                <h1>Crear Cuenta</h1>
+                <p>Únete para organizar tus tareas de manera eficiente</p>
+            </div>
             <AuthForm<RegisterCredentials>
                 formType="register"
                 onSubmit={handleRegister}
                 isLoading={authLoading}
                 error={error}
             />
+            <div className="text-center mt-24">
+                <p className="auth-text">
+                    ¿Ya tienes una cuenta?{' '}
+                    <a href="/login" className="auth-link">
+                        Inicia sesión aquí
+                    </a>
+                </p>
+            </div>
         </div>
     );
 };

@@ -8,25 +8,31 @@ interface TodoItemProps {
     onEdit: (todo: Todo) => void; // Para iniciar la edición
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggleComplete, onDelete, onEdit }) => { // Added onDelete to destructuring
+const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggleComplete, onDelete, onEdit }) => {
     return (
-        <li style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '10px',
-            border: '1px solid #ccc',
-            marginBottom: '5px',
-            textDecoration: todo.completed ? 'line-through' : 'none'
-        }}>
-            <span onClick={() => onToggleComplete(todo.id, !todo.completed)} style={{ cursor: 'pointer' }}>
+        <li className={`todo-item micro-bounce ${todo.completed ? 'completed' : ''}`}>
+            <span
+                onClick={() => onToggleComplete(todo.id, !todo.completed)}
+                className="todo-text"
+            >
                 {todo.text}
             </span>
-            <div>
-                <button onClick={() => onEdit(todo)} style={{ marginRight: '5px' }}>Editar</button>
-                {/* Changed from Delete to Complete, calls onToggleComplete to mark as completed */}
-                <button onClick={() => onToggleComplete(todo.id, true)} style={{ marginRight: '5px' }}>Completar</button>
-                <button onClick={() => onDelete(todo.id)}>Borrar</button> {/* Added Delete button */}
+            <div className="todo-actions">
+                <button onClick={() => onEdit(todo)} className="btn btn-small btn-secondary">
+                    Editar
+                </button>
+                <button
+                    onClick={() => onToggleComplete(todo.id, true)}
+                    className="btn btn-small"
+                >
+                    Completar
+                </button>
+                <button
+                    onClick={() => onDelete(todo.id)}
+                    className="btn btn-small delete-btn"
+                >
+                    Borrar
+                </button>
             </div>
         </li>
     );

@@ -32,18 +32,24 @@ const TodoForm: React.FC<TodoFormProps> = ({ onSubmit, initialData, buttonText =
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-            <input
-                type="text"
-                placeholder="Nueva tarea..."
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                style={{ flexGrow: 1, padding: '8px' }}
-            />
-            <button type="submit" style={{ padding: '8px 15px' }}>
-                {isEditing ? 'Actualizar Tarea' : buttonText}
-            </button>
-        </form>
+        <div className="card">
+            <form onSubmit={handleSubmit} className="form-field">
+                <div className="form-input-group">
+                    <div className="form-input-flex">
+                        <input
+                            type="text"
+                            placeholder="Nueva tarea..."
+                            value={text}
+                            onChange={(e) => setText(e.target.value)}
+                            className="form-input"
+                        />
+                    </div>
+                    <button type="submit" className="btn">
+                        {isEditing ? 'Actualizar' : buttonText}
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 };
 

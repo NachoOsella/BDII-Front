@@ -37,31 +37,41 @@ public class TodoController {
     public List<TodoDTO> getTodosByUser(@PathVariable String userId) {
         return todoService.getTodosByUserId(userId)
                 .stream()
-                .map(todo -> new TodoDTO(todo.getId(), todo.getText(), todo.isCompleted(), todo.getUserId(), todo.getCreatedAt(), todo.getUpdatedAt()))
+                .map(todo -> new TodoDTO(todo.getId(), todo.getText(), todo.isCompleted(), todo.getUserId(),
+                        todo.getCreatedAt(), todo.getUpdatedAt()))
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public TodoDTO getTodoById(@PathVariable String id) {
         Todo todo = todoService.getTodoById(id).orElseThrow();
-        return new TodoDTO(todo.getId(), todo.getText(), todo.isCompleted(), todo.getUserId(), todo.getCreatedAt(), todo.getUpdatedAt());
+        return new TodoDTO(todo.getId(), todo.getText(), todo.isCompleted(), todo.getUserId(), todo.getCreatedAt(),
+                todo.getUpdatedAt());
     }
 
     @PostMapping
     public TodoDTO createTodo(@RequestBody TodoDTO todoDTO) {
         Todo todo = new Todo(todoDTO.getText(), false, todoDTO.getUserId());
         Todo saved = todoService.save(todo);
-        return new TodoDTO(saved.getId(), saved.getText(), saved.isCompleted(), saved.getUserId(), saved.getCreatedAt(), saved.getUpdatedAt());
+        return new TodoDTO(saved.getId(), saved.getText(), saved.isCompleted(), saved.getUserId(), saved.getCreatedAt(),
+                saved.getUpdatedAt());
     }
 
     @PutMapping("/{id}")
     public TodoDTO updateTodo(@PathVariable String id, @RequestBody TodoDTO todoDTO) {
         Todo todo = todoService.getTodoById(id).orElseThrow();
-        todo.setText(todoDTO.getText());
+
+        // Solo actualizar los campos que no son null
+        if (todoDTO.getText() != null) {
+            todo.setText(todoDTO.getText());
+        }
+        // El campo completed es boolean, así que siempre se actualiza
         todo.setCompleted(todoDTO.isCompleted());
         todo.setUpdatedAt(java.time.Instant.now());
+
         Todo updated = todoService.save(todo);
-        return new TodoDTO(updated.getId(), updated.getText(), updated.isCompleted(), updated.getUserId(), updated.getCreatedAt(), updated.getUpdatedAt());
+        return new TodoDTO(updated.getId(), updated.getText(), updated.isCompleted(), updated.getUserId(),
+                updated.getCreatedAt(), updated.getUpdatedAt());
     }
 
     @DeleteMapping("/{id}")
@@ -73,7 +83,8 @@ public class TodoController {
     public List<TodoDTO> getAllTodos() {
         return todoService.getTodosByUserId(null) // O ajusta según lógica de negocio
                 .stream()
-                .map(todo -> new TodoDTO(todo.getId(), todo.getText(), todo.isCompleted(), todo.getUserId(), todo.getCreatedAt(), todo.getUpdatedAt()))
+                .map(todo -> new TodoDTO(todo.getId(), todo.getText(), todo.isCompleted(), todo.getUserId(),
+                        todo.getCreatedAt(), todo.getUpdatedAt()))
                 .collect(Collectors.toList());
     }
 
@@ -90,9 +101,13 @@ public class TodoController {
                         h.getCreatedAt(),
                         h.getUpdatedAt(),
                         h.getAction(),
-                        h.getActionAt()
-                ))
+                        h.getActionAt()))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/history-enriched/{userId}")
+    public List<Map<String, Object>> getEnrichedTodoHistoryByUser(@PathVariable String userId) {
+        return todoHistoryService.getEnrichedHistoryByUser(userId);
     }
 
     @GetMapping("/report/completed-per-week")

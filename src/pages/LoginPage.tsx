@@ -29,13 +29,25 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="container">
+            <div className="reports-header">
+                <h1>Bienvenido</h1>
+                <p>Inicia sesión para acceder a tus tareas</p>
+            </div>
             <AuthForm<LoginCredentials>
                 formType="login"
                 onSubmit={handleLogin}
                 isLoading={authLoading}
                 error={error}
             />
+            <div style={{ textAlign: 'center', marginTop: '24px' }}>
+                <p style={{ color: 'var(--md-on-surface)', opacity: 0.7 }}>
+                    ¿No tienes cuenta?{' '}
+                    <a href="/register" style={{ color: 'var(--md-primary)', textDecoration: 'none' }}>
+                        Regístrate aquí
+                    </a>
+                </p>
+            </div>
         </div>
     );
 };

@@ -12,21 +12,24 @@ const Navbar: React.FC = () => {
     };
 
     return (
-        <nav style={{ padding: '1rem', background: '#eee', marginBottom: '1rem', display: 'flex', justifyContent: 'space-between' }}>
-            <Link to="/">TodoApp</Link>
-            <div>
-                {isAuthenticated && user ? (
-                    <>
-                        <span style={{ marginRight: '1rem' }}>Hola, {user.username}</span>
-                        <Link to="/todos" style={{ marginRight: '1rem' }}>Mis Tareas</Link>
-                        <button onClick={handleLogout}>Logout</button>
-                    </>
-                ) : (
-                    <>
-                        <Link to="/login" style={{ marginRight: '1rem' }}>Login</Link>
-                        <Link to="/register">Register</Link>
-                    </>
-                )}
+        <nav className="navbar">
+            <div className="navbar-content">
+                <Link to="/" className="navbar-brand">TodoApp</Link>
+                <div className="navbar-nav">
+                    {isAuthenticated && user ? (
+                        <>
+                            <span className="navbar-user">Hola, {user.username}</span>
+                            <Link to="/todos" className="navbar-link">Mis Tareas</Link>
+                            <Link to="/reports" className="navbar-link">Reportes</Link>
+                            <button onClick={handleLogout} className="btn btn-small">Logout</button>
+                        </>
+                    ) : (
+                        <>
+                            <Link to="/login" className="navbar-link">Login</Link>
+                            <Link to="/register" className="navbar-link">Register</Link>
+                        </>
+                    )}
+                </div>
             </div>
         </nav>
     );

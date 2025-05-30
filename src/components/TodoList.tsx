@@ -9,26 +9,35 @@ interface TodoListProps {
     onDelete: (id: string) => void; // Added onDelete prop
 }
 
-const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onEdit, onDelete }) => { // Added onDelete to destructuring
+const TodoList: React.FC<TodoListProps> = ({ todos, onToggleComplete, onEdit, onDelete }) => {
     const activeTodos = todos.filter(todo => !todo.completed);
 
     if (!activeTodos.length) {
-        return <p>No tienes tareas pendientes. ¡Añade una!</p>;
+        return (
+            <div className="empty-state">
+                <div className="empty-state-icon">
+                    <div className="icon-circle-large" />
+                </div>
+                <h3>No tienes tareas pendientes</h3>
+                <p>¡Añade una nueva tarea para comenzar!</p>
+            </div>
+        );
     }
 
     return (
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
+        <ul className="todo-list stagger-animation">
             {activeTodos.map(todo => (
                 <TodoItem
                     key={todo.id}
                     todo={todo}
                     onToggleComplete={onToggleComplete}
                     onEdit={onEdit}
-                    onDelete={onDelete} // Passed onDelete to TodoItem
+                    onDelete={onDelete}
                 />
             ))}
         </ul>
     );
 };
+
 
 export default TodoList;

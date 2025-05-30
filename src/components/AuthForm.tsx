@@ -23,36 +23,58 @@ const AuthForm = <T extends LoginCredentials | RegisterCredentials>({ formType, 
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', margin: 'auto' }}>
-            <h2>{formType === 'login' ? 'Login' : 'Register'}</h2>
-            {formType === 'register' && (
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-            )}
-            <input
-                type={formType === 'login' ? "text" : "email"} // Login puede ser con username o email
-                placeholder={formType === 'login' ? "Username or Email" : "Email"}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-            />
-            <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-            />
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <button type="submit" disabled={isLoading}>
-                {isLoading ? 'Procesando...' : (formType === 'login' ? 'Login' : 'Register')}
-            </button>
-        </form>
+        <div className="card form-container">
+            <form onSubmit={handleSubmit} className="fade-in">
+                <h2 className="form-header">
+                    {formType === 'login' ? 'Iniciar Sesión' : 'Registrarse'}
+                </h2>
+
+                {formType === 'register' && (
+                    <div className="form-field">
+                        <input
+                            type="text"
+                            placeholder="Nombre de usuario"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="form-input"
+                            required
+                        />
+                    </div>
+                )}
+
+                <div className="form-field">
+                    <input
+                        type={formType === 'login' ? "text" : "email"}
+                        placeholder={formType === 'login' ? "Usuario o Email" : "Email"}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="form-input"
+                        required
+                    />
+                </div>
+
+                <div className="form-field">
+                    <input
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="form-input"
+                        required
+                    />
+                </div>
+
+                {error && (
+                    <div className="error-message">
+                        {error}
+                    </div>
+                )}
+
+                <button type="submit" disabled={isLoading} className="btn btn-full-width">
+                    {isLoading ? 'Procesando...' : (formType === 'login' ? 'Iniciar Sesión' : 'Registrarse')}
+                </button>
+            </form>
+        </div>
     );
 };
 

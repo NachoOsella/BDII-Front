@@ -1,6 +1,10 @@
 package frc.bd.controller;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import frc.bd.dto.TodoDTO;
@@ -88,5 +93,36 @@ public class TodoController {
                         h.getActionAt()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/report/completed-per-week")
+    public Map<String, Object> getCompletedTasksPerWeek(@RequestParam String userId) {
+        Instant now = Instant.now();
+        Instant weekAgo = now.minus(7, ChronoUnit.DAYS);
+        long count = todoHistoryService.countCompletedInPeriod(userId, weekAgo, now);
+        Map<String, Object> result = new HashMap<>();
+        result.put("userId", userId);
+        result.put("completedThisWeek", count);
+        return result;
+    }
+
+    // Ranking de usuarios con más tareas completadas históricamente
+    @GetMapping("/report/completed-ranking")
+    public List<Map<String, Object>> getCompletedTasksRanking() {
+        return todoHistoryService.getCompletedTasksRanking();
+    }
+
+    @GetMapping("/report/most-active-day")
+    public Map<String, Object> getMostActiveDayOfWeek(@RequestParam String userId) {
+        String day = todoHistoryService.getMostActiveDayOfWeek(userId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("userId", userId);
+        result.put("mostActiveDay", day);
+        return result;
+    }
+
+    @GetMapping("/report/created-by-month")
+    public Map<String, Long> getCreatedTasksByMonth(@RequestParam String userId) {
+        return todoHistoryService.getCreatedTasksByMonth(userId);
     }
 }

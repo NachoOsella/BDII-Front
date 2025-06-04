@@ -33,6 +33,8 @@ public class TodoController {
     @Autowired
     private TodoService todoService;
 
+
+    // Devuelve todas las tareas de un usuario específico.
     @GetMapping("/user/{userId}")
     public List<TodoDTO> getTodosByUser(@PathVariable String userId) {
         return todoService.getTodosByUserId(userId)
@@ -42,6 +44,8 @@ public class TodoController {
                 .collect(Collectors.toList());
     }
 
+
+    // Devuelve una tarea por su ID.
     @GetMapping("/{id}")
     public TodoDTO getTodoById(@PathVariable String id) {
         Todo todo = todoService.getTodoById(id).orElseThrow();
@@ -49,6 +53,8 @@ public class TodoController {
                 todo.getUpdatedAt());
     }
 
+
+    // Crea una nueva tarea.
     @PostMapping
     public TodoDTO createTodo(@RequestBody TodoDTO todoDTO) {
         Todo todo = new Todo(todoDTO.getText(), false, todoDTO.getUserId());
@@ -57,6 +63,8 @@ public class TodoController {
                 saved.getUpdatedAt());
     }
 
+
+    // Actualiza los datos de una tarea existente.
     @PutMapping("/{id}")
     public TodoDTO updateTodo(@PathVariable String id, @RequestBody TodoDTO todoDTO) {
         Todo todo = todoService.getTodoById(id).orElseThrow();
@@ -74,11 +82,15 @@ public class TodoController {
                 updated.getCreatedAt(), updated.getUpdatedAt());
     }
 
+
+    // Elimina una tarea según su ID.
     @DeleteMapping("/{id}")
     public void deleteTodo(@PathVariable String id) {
         todoService.deleteById(id);
     }
 
+
+    // Devuelve todas las tareas 
     @GetMapping
     public List<TodoDTO> getAllTodos() {
         return todoService.getTodosByUserId(null) // O ajusta según lógica de negocio
@@ -88,6 +100,8 @@ public class TodoController {
                 .collect(Collectors.toList());
     }
 
+
+    // Devuelve el historial de acciones sobre tareas de un usuario.
     @GetMapping("/history/{userId}")
     public List<TodoHistoryDTO> getTodoHistoryByUser(@PathVariable String userId) {
         return todoHistoryService.getHistoryByUser(userId)
@@ -105,11 +119,15 @@ public class TodoController {
                 .collect(Collectors.toList());
     }
 
+
+
     @GetMapping("/history-enriched/{userId}")
     public List<Map<String, Object>> getEnrichedTodoHistoryByUser(@PathVariable String userId) {
         return todoHistoryService.getEnrichedHistoryByUser(userId);
     }
 
+
+    // Devuelve la cantidad de tareas completadas por un usuario en la última semana.
     @GetMapping("/report/completed-per-week")
     public Map<String, Object> getCompletedTasksPerWeek(@RequestParam String userId) {
         Instant now = Instant.now();
@@ -127,6 +145,7 @@ public class TodoController {
         return todoHistoryService.getCompletedTasksRanking();
     }
 
+    // Devuelve el día de la semana en que el usuario fue más activo creando tareas.
     @GetMapping("/report/most-active-day")
     public Map<String, Object> getMostActiveDayOfWeek(@RequestParam String userId) {
         String day = todoHistoryService.getMostActiveDayOfWeek(userId);
@@ -136,6 +155,8 @@ public class TodoController {
         return result;
     }
 
+    
+    // Devuelve la cantidad de tareas creadas por mes para un usuario.
     @GetMapping("/report/created-by-month")
     public Map<String, Long> getCreatedTasksByMonth(@RequestParam String userId) {
         return todoHistoryService.getCreatedTasksByMonth(userId);

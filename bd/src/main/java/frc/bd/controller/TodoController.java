@@ -120,22 +120,29 @@ public class TodoController {
     }
 
 
-
+    
     @GetMapping("/history-enriched/{userId}")
     public List<Map<String, Object>> getEnrichedTodoHistoryByUser(@PathVariable String userId) {
         return todoHistoryService.getEnrichedHistoryByUser(userId);
     }
 
 
-    // Devuelve la cantidad de tareas completadas por un usuario en la última semana.
+    // Endpoint GET que devuelve la cantidad de tareas completadas por un usuario en la última semana
     @GetMapping("/report/completed-per-week")
     public Map<String, Object> getCompletedTasksPerWeek(@RequestParam String userId) {
+        // Obtiene el instante actual (fecha y hora actual)
         Instant now = Instant.now();
+        // Calcula el instante de hace 7 días desde ahora
         Instant weekAgo = now.minus(7, ChronoUnit.DAYS);
+        // Llama al servicio para contar cuántas tareas completó el usuario entre weekAgo y ahora
         long count = todoHistoryService.countCompletedInPeriod(userId, weekAgo, now);
+        // Crea un nuevo mapa para la respuesta
         Map<String, Object> result = new HashMap<>();
+        // Agrega el userId al mapa de respuesta
         result.put("userId", userId);
+        // Agrega la cantidad de tareas completadas esta semana al mapa
         result.put("completedThisWeek", count);
+        // Devuelve el mapa como respuesta del endpoint
         return result;
     }
 

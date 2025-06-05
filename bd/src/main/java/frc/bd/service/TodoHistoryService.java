@@ -27,22 +27,24 @@ public class TodoHistoryService {
 
     // Registra una acción realizada sobre una tarea en el historial.
     public void logHistory(Todo todo, String action) {
-        // Asegurar que el texto no sea null
+        // Obtiene el texto de la tarea, y si está vacío o es null, le asigna un valor por defecto.
         String todoText = todo.getText();
         if (todoText == null || todoText.trim().isEmpty()) {
             todoText = "Tarea sin nombre";
         }
 
+        // Crea un objeto TodoHistory con los datos actuales de la tarea y la acción realizada.
         TodoHistory history = new TodoHistory(
-                todo.getId(),
-                todo.getUserId(),
-                todoText,
-                todo.isCompleted(),
-                todo.getCreatedAt(),
-                todo.getUpdatedAt(),
-                action,
-                Instant.now());
+                todo.getId(),         // ID de la tarea
+                todo.getUserId(),     // ID del usuario dueño de la tarea
+                todoText,             // Texto de la tarea (o valor por defecto)
+                todo.isCompleted(),   // Estado de completitud
+                todo.getCreatedAt(),  // Fecha de creación
+                todo.getUpdatedAt(),  // Fecha de última actualización
+                action,               // Acción realizada (CREATED, UPDATED, COMPLETED, DELETED)
+                Instant.now());       // Momento en que se registra la acción
 
+        // Guarda el registro en la base de datos 
         todoHistoryRepository.save(history);
     }
 
@@ -62,6 +64,8 @@ public class TodoHistoryService {
         return todoHistoryRepository.countByUserIdAndActionAndActionAtBetween(
                 userId, "COMPLETED", from, to);
     }
+
+
 
     // Devuelve un ranking de usuarios con más tareas completadas históricamente.
     public List<Map<String, Object>> getCompletedTasksRanking() {
@@ -87,6 +91,8 @@ public class TodoHistoryService {
         return ranking;
     }
 
+
+
     // Devuelve el día de la semana en el que el usuario creó más tareas.
     public String getMostActiveDayOfWeek(String userId) {
         // Obtiene el historial de acciones del usuario ordenado por fecha descendente
@@ -110,6 +116,8 @@ public class TodoHistoryService {
                 .orElse(null); // Si no hay datos, devuelve null
     }
 
+
+
     // Devuelve la cantidad de tareas creadas por mes para un usuario.
     public Map<String, Long> getCreatedTasksByMonth(String userId) {
         // Obtiene el historial de acciones del usuario ordenado por fecha descendente
@@ -131,6 +139,8 @@ public class TodoHistoryService {
         return monthCount;
     }
 
+
+
     // Devuelve el historial de acciones enriquecido con el nombre del usuario y descripciones amigables.
     public List<Map<String, Object>> getEnrichedHistoryByUser(String userId) {
         // Obtiene el historial de acciones del usuario ordenado por fecha descendente
@@ -140,7 +150,9 @@ public class TodoHistoryService {
 
         // Recorre cada acción del historial
         for (TodoHistory h : history) {
+            //Crea un nuevo mapa para almacenar los datos de la acción.
             Map<String, Object> entry = new java.util.HashMap<>();
+            //Agrega el id de la acción, el id de la tarea, el id del usuario
             entry.put("id", h.getId());
             entry.put("todoId", h.getTodoId());
             entry.put("userId", h.getUserId());
@@ -169,6 +181,8 @@ public class TodoHistoryService {
         // Devuelve la lista de acciones enriquecidas
         return enrichedHistory;
     }
+
+
 
     // Método auxiliar para generar descripciones más amigables de las acciones
     private String getActionDescription(String action, String todoText) {

@@ -17,14 +17,16 @@ public class TodoService {
     @Autowired
     private TodoHistoryService todoHistoryService;
 
+    //devuelve una lista de todas las tareas (Todo) asociadas a ese usuario.
     public List<Todo> getTodosByUserId(String userId) {
         return todoRepository.findByUserId(userId);
     }
-
+    //buscar la tarea por su ID
     public Optional<Todo> getTodoById(String id) {
         return todoRepository.findById(id);
     }
 
+    //guarda una tarea (Todo) en la base de datos
     public Todo save(Todo todo) {
         boolean isNew = (todo.getId() == null);
         boolean wasCompleted = false;
@@ -51,6 +53,7 @@ public class TodoService {
         return saved;
     }
 
+    // elimina una tarea por su ID.
     public void deleteById(String id) {
         todoRepository.findById(id).ifPresent(todo -> {
             todoHistoryService.logHistory(todo, "DELETED");
